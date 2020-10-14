@@ -1,57 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
 import './App.css';
+import  HomePage  from "./pages/HomePage";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import SectionPage from './pages/SectionPage';
+import SelectedArticle from "./pages/SelectedArticle";
+import AppToolBar from "./components/AppBar";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
+    <Router>
+    <AppToolBar />
+    <Switch>
+    <Route  exact path="/" component={HomePage} />
+
+      <Route exact path="/Business" component={SectionPage} />
+      <Route exact path="/Entertainment" component={SectionPage} />
+      <Route exact path="/Health" component={SectionPage} />
+      <Route exact path="/Science" component={SectionPage} />
+      <Route exact path="/Sports" component={SectionPage} />
+      <Route exact path="/Technology" component={SectionPage} />
+      <Route exact path="/news/:title" component={SelectedArticle} />
+
+      <Redirect to="/" />
+    </Switch>
+  </Router>
+        
+       
+      
+    
   );
 }
 
