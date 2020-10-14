@@ -1,36 +1,24 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { fetchArticles } from "../actions/news_actions";
-import { useLocation } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import FeaturedNews from "../components/FeaturedNews";
 import TrendingNews from "../components/TrendingNews";
 import TopNews from "../components/TopNews";
 import Container from "@material-ui/core/Container";
 import Skeltons from "../UI/Skeltons";
-
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 const useStyles = makeStyles((theme) => ({
-  mainGrid: {
-    marginTop: theme.spacing(3),
-  },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    bottom: 0,
-    right: 0,
-    left: 0,
-    backgroundColor: "rgba(0,0,0,.3)",
-  },
   appBarSpacer: theme.mixins.toolbar,
 }));
 export const SectionPage = (props) => {
   let category = props.location.pathname;
   category = category.substring(category.lastIndexOf("/") + 1);
+
   React.useEffect(() => {
-    console.log(category);
+    document.title = category.concat(" News");
     props.fetchArticles(category);
   }, [category]);
   const classes = useStyles();
@@ -43,7 +31,7 @@ export const SectionPage = (props) => {
 
         <Grid container spacing={4}>
           {props.loading &&
-            Array.from(new Array(15)).map((item, index) => {
+            Array.from(new Array(15)).map(() => {
               return <Skeltons />;
             })}
           {!props.loading && (

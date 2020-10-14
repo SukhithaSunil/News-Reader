@@ -6,7 +6,6 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Link from "@material-ui/core/Link";
-import CardActions from "@material-ui/core/CardActions";
 import Hidden from '@material-ui/core/Hidden';
 
 const useStyles = makeStyles({
@@ -50,7 +49,7 @@ export default function TrendingArticle({article,openSelectedArticle}) {
         </CardContent>
       </div>
       <Hidden xsDown>
-        <CardMedia className={classes.cardMedia} image={article.urlToImage} title={article.name} />
+        <CardMedia className={classes.cardMedia} src={article.urlToImage} title={article.name} />
       </Hidden>
     </Card>
   </CardActionArea>

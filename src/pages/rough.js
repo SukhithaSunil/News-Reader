@@ -1,9 +1,11 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import AppBar from "../components/AppBar";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
+import Paper from "@material-ui/core/Paper";
 import TopNews from "../components/TopNews";
 import { fetchArticles } from "../actions/news_actions";
 import FeaturedNews from "../components/FeaturedNews";
@@ -13,28 +15,54 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
+  mainGrid: {
+    marginTop: theme.spacing(3),
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: "rgba(0,0,0,.3)",
+  },
   appBarSpacer: theme.mixins.toolbar,
 }));
 
-export const DashBoard = ({ loading, articles, fetchArticles , error}) => {
+export const DashBoard = ({
+  error,
+  loading,
+  articles,
+  selectedArticle,
+  selectedSection,
+  fetchArticles,
+}) => {
   const [shownArticles, setShownArticles] = React.useState([]);
   const [hasMore, setHasMore] = React.useState(true);
 
   const fetchMoreData = () => {
-
+    // a fake async api call like which sends
+    // 20 more records in 1.5 secs
     if (shownArticles.length >= articles.length - 8) {
       setHasMore(false);
       return;
     }
-
-    setShownArticles(shownArticles.concat(articles.splice(8, 10)));
-
+   
+      console.log(" setShownArticles fetchMoreData");
+      setShownArticles(shownArticles.concat(articles.splice(8, 10)));
+      console.log(shownArticles);
+      // this.setState({
+      //   items: this.state.items.concat(Array.from({ length: 20 }))
+      // });
+    
   };
 
   React.useEffect(() => {
     document.title = "NewsHub";
     fetchArticles("general");
     setShownArticles(articles.splice(7, articles.length));
+    console.log(shownArticles);
+
   }, []);
   const classes = useStyles();
 
@@ -45,19 +73,8 @@ export const DashBoard = ({ loading, articles, fetchArticles , error}) => {
         <div className={classes.appBarSpacer} />
         <main>
           <Grid container spacing={4}>
-            {error&&
-            <Typography
-            gutterBottom
-            variant="h4"
-            component="h2"
-            align="center"
-            noWrap
-          >
-            Loading
-          </Typography>
-            }
             {loading &&
-              Array.from(new Array(15)).map(() => {
+              Array.from(new Array(15)).map((item, index) => {
                 return <Skeltons />;
               })}
 
@@ -103,7 +120,7 @@ export const DashBoard = ({ loading, articles, fetchArticles , error}) => {
               }
             >
               <Grid container spacing={4}>
-                {shownArticles.map((i) => (
+                {shownArticles.map((i, index) => (
                   <Grid item xs={12} md={4}>
                     <TopNews article={i} />
                   </Grid>
